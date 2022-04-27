@@ -4,7 +4,9 @@ const express = require("express");
 // create an express server from the express function above.
 const server = express();
 
-const PORT = 3000;
+console.log(process.env.PORT);
+
+const PORT = process.env.PORT || 3000;
 
 // Make the server listen on a port (on our)
 server.listen(PORT, () => {
