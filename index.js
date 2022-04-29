@@ -128,7 +128,7 @@ server.get("/students", (req, res) => {
 */
 server.post("/destinations", (req, res) => {
   // ONLY grab what I need
-  const { destination, location, photo, description } = req.body;
+  const { destination, location, description } = req.body;
 
   // Validate that I got what I expected (i.e destination & location are BOTH present and not empty strings)
   if (
@@ -142,11 +142,24 @@ server.post("/destinations", (req, res) => {
       .send({ error: "Destination AND location are BOTH required" });
   }
 
+  //Unsplash API URL with API_KEY and the location & destination passed in as the query
+
+  // Use fetch or Axios to get photos
+
+  // Create the unsplash apiurl
+  const UnsplashUrl = `https://api.unsplash.com/photos/?query=${destination} ${location} & client_id=cVlQRxFiSE6x5A6EYY5ERJaA0Fqe2FWf_vHhaTUjoiA`;
+
+  const {data} = await axios.get(UnsplashUrl)
+
+  const photos = data.results
+  //Create new object to put in DataBase
+  const randIdx = Math.floor(Math.random() * photos.length);
+
   const newDest = {
     destination,
     location,
-    photo: photo && photo.length !== 0 ? photo : "papaoutai",
-    description: description && description.length !== 0 ? description : "",
+    photo: photos[randIdx].urls.small ,
+    description: description ? description : "",
   };
 
   destinations.push(newDest);
