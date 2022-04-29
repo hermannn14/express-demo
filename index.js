@@ -1,5 +1,6 @@
 // Require express
 const express = require("express");
+const cors = require("cors");
 
 // create an express server from the express function above.
 const server = express();
