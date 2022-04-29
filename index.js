@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 // Require express
 const express = require("express");
 const cors = require("cors");
@@ -148,7 +150,7 @@ server.post("/destinations", async (req, res) => {
   // Use fetch or Axios to get photos
 
   // Create the unsplash apiurl
-  const UnsplashApiUrl = `https://api.unsplash.com/photos/?query=${destination} ${location} & client_id=cVlQRxFiSE6x5A6EYY5ERJaA0Fqe2FWf_vHhaTUjoiA`;
+  const UnsplashApiUrl = `https://api.unsplash.com/search/photos/?query=${destination} ${location}&client_id=${process.env.UNSPLASH_API_KEY}`;
 
   const { data } = await axios.get(UnsplashApiUrl);
 
