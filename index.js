@@ -41,6 +41,30 @@ const students = {
   },
 };
 
+server.get("/students/city/:city", (req, res) => {
+  const { city } = req.params;
+
+  if (city) {
+    const filteredStudents = Object.values(students).filter(
+      (student) => student.city.toLowerCase() === city.toLowerCase()
+    );
+
+    return res.send(filteredStudents);
+  }
+});
+
+server.get("/students/interest/:interest", (req, res) => {
+  const { interest } = req.params;
+
+  if (interest) {
+    const filteredStudents = Object.values(students).filter(
+      student.interests.includes(interest.toLowerCase())
+    );
+
+    return res.send(filteredStudents);
+  }
+});
+
 server.get("/students/name/:name", (req, res) => {
   const { name } = req.params;
 
@@ -55,28 +79,22 @@ server.get("/students/name/:name", (req, res) => {
       .status(404)
       .send({ error: `Student by the name of ${name} not found` });
   }
-  server.get("/students/city/:city", (req, res) => {
-    const { city } = req.params;
+});
 
-    if (city) {
-      const filteredStudents = Object.values(students).filter(
-        (student) => student.city.toLowerCase() === city.toLowerCase()
-      );
+server.get("/students", (req, res) => {
+  const { name, interest, city } = req.query;
 
-      return res.send(filteredStudents);
+  if (name) {
+    const student = student[name.toLowerCase()];
+
+    if (student) {
+      return res.send(student);
     }
-  });
-  server.get("/students/interest/:interest", (req, res) => {
-    const { interest } = req.params;
 
-    if (interest) {
-      const filteredStudents = Object.values(students).filter(
-        student.interests.includes(interest.toLowerCase())
-      );
-
-      return res.send(filteredStudents);
-    }
-  });
+    return res
+      .status(404)
+      .send({ error: `Student by the name of ${name} not found` });
+  }
 
   let filteredStudents = Object.values(students);
 
