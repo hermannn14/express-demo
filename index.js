@@ -9,6 +9,9 @@ server.use(express.json());
 
 // console.log(process.env.PORT);
 
+// Tell my server to use CORS
+server.use(cors());
+
 const PORT = process.env.PORT || 3000;
 
 // Make the server listen on a port (on our)
