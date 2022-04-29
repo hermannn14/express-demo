@@ -1,6 +1,7 @@
 // Require express
 const express = require("express");
 const cors = require("cors");
+const axios = require("axios");
 
 // create an express server from the express function above.
 const server = express();
@@ -126,7 +127,7 @@ server.get("/students", (req, res) => {
     - photo
     - description
 */
-server.post("/destinations", (req, res) => {
+server.post("/destinations", async (req, res) => {
   // ONLY grab what I need
   const { destination, location, description } = req.body;
 
@@ -147,18 +148,18 @@ server.post("/destinations", (req, res) => {
   // Use fetch or Axios to get photos
 
   // Create the unsplash apiurl
-  const UnsplashUrl = `https://api.unsplash.com/photos/?query=${destination} ${location} & client_id=cVlQRxFiSE6x5A6EYY5ERJaA0Fqe2FWf_vHhaTUjoiA`;
+  const UnsplashApiUrl = `https://api.unsplash.com/photos/?query=${destination} ${location} & client_id=cVlQRxFiSE6x5A6EYY5ERJaA0Fqe2FWf_vHhaTUjoiA`;
 
-  const {data} = await axios.get(UnsplashUrl)
+  const { data } = await axios.get(UnsplashApiUrl);
 
-  const photos = data.results
+  const photos = data.results;
   //Create new object to put in DataBase
   const randIdx = Math.floor(Math.random() * photos.length);
 
   const newDest = {
     destination,
     location,
-    photo: photos[randIdx].urls.small ,
+    photo: photos[randIdx].urls.small,
     description: description ? description : "",
   };
 
